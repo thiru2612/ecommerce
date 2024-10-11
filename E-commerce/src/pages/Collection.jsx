@@ -12,7 +12,7 @@ const Collection = () => {
   const [category,setCategory]=useState([]);
   const [subCategory,setSubCategory]=useState([]);
   
-  const
+//   const
   useEffect(()=>{
     setFilterProducts(products);
   },[])
