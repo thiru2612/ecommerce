@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "abc@gmail.com",
+      "name": "abc",
+      "password": "abc"
+    },
+    {
+      "id": "a56e",
+      "name": "thiru",
+      "email": "thiru@gmail.com",
+      "password": "thiru123"
+    },
+    {
+      "id": "ce8b",
+      "name": "MANI",
+      "email": "MANI1@gmail.com",
+      "password": "mani123"
+    }
+  ]
+}
