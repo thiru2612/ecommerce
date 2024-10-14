@@ -17,6 +17,18 @@
       "name": "MANI",
       "email": "MANI1@gmail.com",
       "password": "mani123"
+    },
+    {
+      "id": "a90d",
+      "name": "cham",
+      "email": "cham@gmail.com",
+      "password": "123"
+    },
+    {
+      "id": "96d7",
+      "name": "keerthi",
+      "email": "ker@gmail.com",
+      "password": "123"
     }
   ]
 }
