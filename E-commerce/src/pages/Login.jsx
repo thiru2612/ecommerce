@@ -1,43 +1,88 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { TextField, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Login = () => {
+  const [name, setName] = useState('');
   const [currentState, setCurrentState] = useState('Login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
-  
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,20}$/;
+    return passwordRegex.test(password) && !/\s/.test(password);
+  };
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+
+    const response = await fetch('http://localhost:3000/users');
+    const users = await response.json();
+
     if (currentState === 'Sign Up') {
-      // Sign Up logic
-      const response = await fetch('http://localhost:3000/users', {
+      if (name.length < 3) {
+        alert('Username must be at least 3 letters long.');
+        return;
+      }
+
+      const existingUser = users.find(user => user.name === name);
+      const existingEmail = users.find(user => user.email === email);
+
+      if (existingUser) {
+        alert('Username already exists.');
+        return;
+      }
+
+      if (existingEmail) {
+        alert('Email already exists. Redirecting to Login.');
+        setCurrentState('Login');
+        setPassword('');
+        setConfirmPassword('');
+        return;
+      }
+
+      if (!validatePassword(password)) {
+        alert('Password must be 6-20 characters long, contain no spaces, and have at least one special character.');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+      }
+
+      const signUpResponse = await fetch('http://localhost:3000/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ name, email, password })
       });
-      if (response.ok) {
+
+      if (signUpResponse.ok) {
         navigate('/');
         alert('User signed up successfully!');
       } else {
         alert('Error signing up!');
       }
+
     } else if (currentState === 'Login') {
-      // Login logic
-      const response = await fetch('http://localhost:3000/users');
-      const users = await response.json();
       const user = users.find(user => user.email === email && user.password === password);
-      if (user) { 
-       
+
+      if (user) {
         navigate('/');
         alert('Login successful!');
-        
       } else {
-        alert('Invalid email or password!');
+        alert('Invalid email or password. Redirecting to Sign Up.');
+        setCurrentState('Sign Up');
+        setName('');
+        setPassword('');
+        setConfirmPassword('');
       }
     }
   };
@@ -51,31 +96,71 @@ const Login = () => {
         <hr className='border-none h-[1.5px] w-8 bg-gray-800' />
       </div>
       {currentState === 'Login' ? '' : (
-        <input
+        <TextField
           type="text"
-          className='w-full px-3 py-2 border border-gray-800'
-          placeholder='Name'
+          label="Name"
+          variant="outlined"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          fullWidth
         />
       )}
-      <input
+      <TextField
         type="email"
-        className='w-full px-3 py-2 border border-gray-800'
-        placeholder='Email'
+        label="Email"
+        variant="outlined"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
+        fullWidth
       />
-      <input
-        type="password"
-        className='w-full px-3 py-2 border border-gray-800'
-        placeholder='Password'
+      <TextField
+        type={showPassword ? 'text' : 'password'}
+        label="Password"
+        variant="outlined"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => setShowPassword(!showPassword)}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          )
+        }}
       />
+      {currentState === 'Sign Up' && (
+        <TextField
+          type={showConfirmPassword ? 'text' : 'password'}
+          label="Confirm Password"
+          variant="outlined"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+          fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle confirm password visibility"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+        />
+      )}
       <div className='w-full flex justify-between text-sm mt-[-8px]'>
         <p className='cursor-pointer'>Forget your password?</p>
         {currentState === 'Login' ?
@@ -91,4 +176,3 @@ const Login = () => {
 };
 
 export default Login;
-

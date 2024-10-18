@@ -1,34 +1,10 @@
 {
   "users": [
     {
-      "id": "1",
-      "email": "abc@gmail.com",
-      "name": "abc",
-      "password": "abc"
-    },
-    {
-      "id": "a56e",
-      "name": "thiru",
+      "id": "ff27",
+      "name": "Thiruppathi",
       "email": "thiru@gmail.com",
-      "password": "thiru123"
-    },
-    {
-      "id": "ce8b",
-      "name": "MANI",
-      "email": "MANI1@gmail.com",
-      "password": "mani123"
-    },
-    {
-      "id": "a90d",
-      "name": "cham",
-      "email": "cham@gmail.com",
-      "password": "123"
-    },
-    {
-      "id": "96d7",
-      "name": "keerthi",
-      "email": "ker@gmail.com",
-      "password": "123"
+      "password": "thiru@"
     }
   ]
 }
