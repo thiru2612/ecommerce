@@ -9,12 +9,12 @@ then install all neccessary packages
 
 
 
-  npm install react react-router-dom
 
   
 
 In order to run the project,move to the folder using cd command.
 then execute
 
+  npm install react react-router-dom
 
     npm run dev
