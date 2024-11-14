@@ -11,4 +11,6 @@ then install all neccessary packages
 
 In order to run the project,move to the folder using cd command.
 then execute
+
+
     npm run dev
