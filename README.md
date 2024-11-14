@@ -7,7 +7,11 @@ In order to run this file:
   
 then install all neccessary packages
 
+
+
   npm install react react-router-dom
+
+  
 
 In order to run the project,move to the folder using cd command.
 then execute
